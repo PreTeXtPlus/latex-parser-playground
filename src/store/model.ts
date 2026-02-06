@@ -11,7 +11,8 @@ type ActiveView =
     | "doc"
     | "debug"
     | "html"
-    | "markdown";
+    | "markdown"
+    | "pretext";
 
 export interface StoreModel {
     activeView: ActiveView;
@@ -38,6 +39,9 @@ export interface StoreModel {
 
     markdown: string;
     setMarkdown: Action<StoreModel, string>;
+
+    pretext: string;
+    setPretext: Action<StoreModel, string>;
 
     parseError: ParseError | string | null;
     setParseError: Action<StoreModel, ParseError | string | null>;

@@ -63,6 +63,10 @@ export const store = createStore<StoreModel>({
                         editorText
                     );
                     actions.setMarkdown(markdown as any);
+                    break;
+                case "pretext":
+                    const pretext = await parsingWorker.formatAsPretext(editorText);
+                    actions.setPretext(pretext);
             }
             const lintMessages = await parsingWorker.getLints(editorText);
             actions.setLints(lintMessages);
@@ -94,6 +98,10 @@ export const store = createStore<StoreModel>({
     markdown: "",
     setMarkdown: action((state, payload) => {
         state.markdown = payload;
+    }),
+    pretext: "foo",
+    setPretext: action((state, payload) => {
+        state.pretext = payload;
     }),
     applyLints: false,
     setApplyLints: action((state, payload) => {
