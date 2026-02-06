@@ -24,7 +24,7 @@ export default defineConfig({
     build: {
         sourcemap: true,
         minify: false,
-        outDir: "build",
+        outDir: "docs",
     },
     define: {
         __UNIFIED_LATEX_VERSION__: "'" + unifiedLatexVersion + "'",
