@@ -14,6 +14,7 @@ import { FormattedDisplay } from "./components/formatted-display";
 import { JsonDisplay } from "./components/json-display";
 import { PrettierDocDisplay } from "./components/prettier-doc-display";
 import { MarkdownView } from "./components/markdown-view";
+import { PretextView } from "./components/pretext-view";
 
 declare const __UNIFIED_LATEX_VERSION__: string;
 
@@ -27,6 +28,7 @@ function App() {
     const setApplyLints = useStoreActions((a) => a.setApplyLints);
     const texParsed = useStoreState((state) => state.parsed);
     const htmlRender = useStoreState((state) => state.html);
+    const pretextRender = useStoreState((state) => state.pretext);
     const markdownRender = useStoreState((state) => state.markdown);
     const lints = useStoreState((state) => state.lintDescs);
 
@@ -56,8 +58,14 @@ function App() {
     if (currDisplay === "html") {
         rightPanel = <HtmlView htmlInput={htmlRender} />;
     }
+    if (currDisplay === "pretext") {
+        rightPanel = <PretextView pretextInput={pretextRender} />;
+    }
     if (currDisplay === "markdown") {
         rightPanel = <MarkdownView mdast={markdownRender} />;
+    }
+    if (currDisplay === "pretext") {
+        rightPanel = <PretextView htmlInput={htmlRender} />;
     }
 
     return (
@@ -87,6 +95,7 @@ function App() {
                     <option value="debug">Debug View</option>
                     <option value="html">HTML View</option>
                     <option value="markdown">Markdown View</option>
+                    <option value="pretext">PreTeXt View</option>
                 </select>{" "}
                 <label>
                     Show Lints:{" "}

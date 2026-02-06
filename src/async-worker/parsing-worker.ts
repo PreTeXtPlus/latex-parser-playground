@@ -8,6 +8,7 @@ import {
     unifiedLatexFromString,
 } from "@unified-latex/unified-latex-util-parse";
 import { convertToHtml } from "@unified-latex/unified-latex-to-hast";
+import { convertToPretext } from "@unified-latex/unified-latex-to-pretext";
 import { unifiedLatexToMdast } from "@unified-latex/unified-latex-to-mdast";
 import { decorateArrayForPegjs } from "@unified-latex/unified-latex-util-pegjs";
 import { unified } from "unified";
@@ -98,6 +99,10 @@ const exposed = {
         let output= toMarkdown(mdast as any);
         //console.log(output, mdast)
         return output;
+    },
+    formatAsPretext(texInput: string, options = {}) {
+        let output = parse(texInput);
+        return convertToPretext(output);
     },
     parse(texInput: string, options = {}) {
         const output = parse(texInput);
