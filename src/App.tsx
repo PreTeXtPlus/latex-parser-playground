@@ -1,5 +1,6 @@
 import React from "react";
-import SplitPane from "react-split-pane";
+import { Pane, SplitPane } from "react-split-pane";
+import 'react-split-pane/styles.css';
 
 import "./App.css";
 
@@ -117,11 +118,15 @@ function App() {
                 </span>
             </div>
             <div className="tex-section">
-                <SplitPane split="vertical" minSize={200} defaultSize="50%">
+                <SplitPane direction="horizontal">
+                    <Pane minSize={200} defaultSize="50%">
                     <div className="code-container">
                         <Editor />
                     </div>
+                    </Pane>
+                    <Pane minSize={200} defaultSize="50%">
                     <div className="code-container">{rightPanel}</div>
+                    </Pane>
                 </SplitPane>
             </div>
             {showLints && (

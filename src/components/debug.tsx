@@ -1,6 +1,6 @@
 import React from "react";
 
-import SplitPane from "react-split-pane";
+import {Pane, SplitPane} from "react-split-pane";
 
 import { filterProp } from "../filter-prop";
 import { parsingWorker } from "../async-worker/worker-wrapper";
@@ -164,12 +164,12 @@ export function DebugView() {
             return null;
         }
         if (items.length === 1) {
-            return items[0];
+            return <Pane>{items[0]}</Pane>;
         }
         return (
-            <SplitPane split="vertical" defaultSize="50%">
-                {items[0]}
-                {createNestedSplitpanes(items.slice(1))}
+            <SplitPane direction="horizontal">
+                <Pane minSize={100}>{items[0]}</Pane>
+                <Pane minSize={100}>{createNestedSplitpanes(items.slice(1))}</Pane>
             </SplitPane>
         );
     }

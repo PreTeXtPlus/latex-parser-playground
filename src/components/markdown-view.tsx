@@ -1,6 +1,6 @@
 import React from "react";
 import "katex/dist/katex.min.css";
-import ReactSplitPane from "react-split-pane";
+import { SplitPane, Pane} from "react-split-pane";
 
 import { useCodeMirror } from "@uiw/react-codemirror";
 import { html } from "@codemirror/lang-html";
@@ -42,9 +42,9 @@ export function MarkdownSourceDisplay() {
 /**
  * Wrapper around ReactSplitPlane so that typescript stops complaining.
  */
-function SplitPane({ children, ...rest }: React.PropsWithChildren<any>) {
-    return <ReactSplitPane {...rest}>{children}</ReactSplitPane>;
-}
+//function SplitPane({ children, ...rest }: React.PropsWithChildren<any>) {
+//    return <ReactSplitPane {...rest}>{children}</ReactSplitPane>;
+//}
 
 function RenderedMarkdown({ source }: { source: string }) {
     return (
@@ -59,11 +59,15 @@ function RenderedMarkdown({ source }: { source: string }) {
 
 export function MarkdownView({ mdast, ...rest }: { mdast: string }) {
     return (
-        <SplitPane split="horizontal" defaultSize="50%">
+        <SplitPane direction="vertical">
+            <Pane minSize={200} defaultSize="50%">
             <div className="code-container">
                 <MarkdownSourceDisplay />
             </div>
+            </Pane>
+            <Pane minSize={200} defaultSize="50%">
             <RenderedMarkdown source={mdast} />
+            </Pane>
         </SplitPane>
     );
 }

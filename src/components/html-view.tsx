@@ -4,7 +4,8 @@ import "katex/dist/katex.min.css";
 import renderMathInElement from "katex/dist/contrib/auto-render";
 // @ts-ignore
 import katex from "katex/dist/katex.mjs";
-import ReactSplitPane from "react-split-pane";
+import { Pane, SplitPane } from "react-split-pane";
+import 'react-split-pane/styles.css';
 // @ts-ignore
 import Prettier from "prettier/esm/standalone.mjs";
 import htmlParser from "prettier/parser-html";
@@ -54,9 +55,9 @@ export function HtmlSourceDisplay() {
 /**
  * Wrapper around ReactSplitPlane so that typescript stops complaining.
  */
-function SplitPane({ children, ...rest }: React.PropsWithChildren<any>) {
-    return <ReactSplitPane {...rest}>{children}</ReactSplitPane>;
-}
+//function SplitPane({ children, ...rest }: React.PropsWithChildren<any>) {
+//    return <ReactSplitPane {...rest}>{children}</ReactSplitPane>;
+//}
 
 function KatexRenderedHtml({ source }: { source: string }) {
     const renderedRef = React.useRef<HTMLDivElement>(null);
@@ -104,11 +105,15 @@ function KatexRenderedHtml({ source }: { source: string }) {
 
 export function HtmlView({ htmlInput, ...rest }: { htmlInput: string }) {
     return (
-        <SplitPane split="horizontal" defaultSize="50%">
+        <SplitPane direction="vertical">
+            <Pane minSize={200} defaultSize="50%">
             <div className="code-container">
                 <HtmlSourceDisplay />
             </div>
+            </Pane>
+            <Pane minSize={200} defaultSize="50%">
             <KatexRenderedHtml source={htmlInput} />
+            </Pane>
         </SplitPane>
     );
 }
