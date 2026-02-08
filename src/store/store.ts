@@ -3,13 +3,9 @@ import { isParseError } from "../async-worker/errors";
 import { parsingWorker } from "../async-worker/worker-wrapper";
 import { filterProp } from "../filter-prop";
 import { StoreModel } from "./model";
+import { defaultContent } from "../default-content";
 
-const DEFAULT_INPUT_TEXT = String.raw`\section*{Really Cool Math}Below you'll find some really cool math.
-
-Check it out!\begin{enumerate}
-    \item[(a)] Hi there
-\item$e^2$ is math mode! \[\begin{bmatrix}12&3^e\\\pi&0\end{bmatrix}\]
-\end{enumerate}`;
+const DEFAULT_INPUT_TEXT = defaultContent;
 
 export const store = createStore<StoreModel>({
     activeView: "formatted",

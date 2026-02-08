@@ -8,11 +8,14 @@ import {
     unifiedLatexFromString,
 } from "@unified-latex/unified-latex-util-parse";
 import { convertToHtml } from "@unified-latex/unified-latex-to-hast";
-import { convertToPretext } from "@unified-latex/unified-latex-to-pretext";
+import { convertToPretext, unifiedLatexToPretext, xmlCompilePlugin } from "@unified-latex/unified-latex-to-pretext";
 import { unifiedLatexToMdast } from "@unified-latex/unified-latex-to-mdast";
 import { decorateArrayForPegjs } from "@unified-latex/unified-latex-util-pegjs";
 import { unified } from "unified";
 import { toMarkdown } from "mdast-util-to-markdown";
+import rehypeStringify from "rehype-stringify";
+import { processLatexViaUnified } from "@unified-latex/unified-latex";
+
 
 // @ts-ignore
 import peg from "pegjs";
@@ -24,6 +27,7 @@ import prettierPluginBabel from "prettier/parser-babel";
 //import globalthisgenrator from "globalthis";
 
 import { fixAllLints, getLints } from "../linter";
+import { myMacroReplacements, ptxExtraEnvironmentReplacements } from "../constants";
 
 /**
  * Format `source` LaTeX code using Prettier to format/render
@@ -101,8 +105,7 @@ const exposed = {
         return output;
     },
     formatAsPretext(texInput: string, options = {}) {
-        let output = parse(texInput);
-        return convertToPretext(output);
+        return pretextConvert(texInput);
     },
     parse(texInput: string, options = {}) {
         const output = parse(texInput);
@@ -176,6 +179,22 @@ const exposed = {
         return output;
     },
 };
+
+
+function pretextConvert(texInput: string) {
+    const convert = (value: string) =>
+        processLatexViaUnified()
+        .use(unifiedLatexToPretext, {
+        producePretextFragment: true,
+        macroReplacements: myMacroReplacements,
+        environmentReplacements: ptxExtraEnvironmentReplacements,
+      })
+      .use(xmlCompilePlugin)
+      .processSync({ value });
+      return convert(texInput).value as string;
+
+}
+
 
 export type Exposed = typeof exposed;
 
