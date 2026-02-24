@@ -185,7 +185,7 @@ function pretextConvert(texInput: string) {
     const convert = (value: string) =>
         processLatexViaUnified()
         .use(unifiedLatexToPretext, {
-        producePretextFragment: true,
+        producePretextFragment: false,
         macroReplacements: myMacroReplacements,
         environmentReplacements: ptxExtraEnvironmentReplacements,
       })
