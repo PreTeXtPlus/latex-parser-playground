@@ -17,6 +17,23 @@ const packageJsonPath = path.join(
 );
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf-8"));
 const unifiedLatexVersion = packageJson.version as string;
+const unifiedLatexDeps = [
+    "@unified-latex/unified-latex-lint",
+    "@unified-latex/unified-latex-prettier",
+    "@unified-latex/unified-latex-to-hast",
+    "@unified-latex/unified-latex-to-mdast",
+    "@unified-latex/unified-latex-to-pretext",
+    "@unified-latex/unified-latex-util-parse",
+    "@unified-latex/unified-latex-util-pegjs",
+    "@unified-latex/unified-latex-util-pgfkeys",
+    "@unified-latex/unified-latex-util-print-raw",
+    "@unified-latex/unified-latex-util-replace",
+    "@unified-latex/unified-latex-util-split",
+    "@unified-latex/unified-latex-ctan",
+    "@unified-latex/unified-latex",
+    "@unified-latex/unified-latex-builder",
+    "@unified-latex/unified-latex-types",
+];
 
 export default defineConfig({
     base: "./",
@@ -25,6 +42,15 @@ export default defineConfig({
         sourcemap: true,
         minify: false,
         outDir: "docs",
+    },
+    server: {
+        // Allow dev server to read from the unified-latex repo via symlink.
+        fs: {
+            allow: [
+                "/files/GitHub/dev/latex-parser-playground",
+                "/files/GitHub/dev/unified-latex",
+            ],
+        },
     },
     define: {
         __UNIFIED_LATEX_VERSION__: "'" + unifiedLatexVersion + "'",
