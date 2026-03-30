@@ -58,4 +58,9 @@ export default defineConfig({
     resolve: {
         conditions: ["worker"],
     },
+    optimizeDeps: {
+        esbuildOptions: {
+            conditions: ["worker"],
+        },
+    },
 });
