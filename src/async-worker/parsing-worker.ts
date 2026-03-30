@@ -182,17 +182,20 @@ const exposed = {
 
 
 function pretextConvert(texInput: string) {
-    const convert = (value: string) =>
-        processLatexViaUnified()
+    const result = processLatexViaUnified()
         .use(unifiedLatexToPretext, {
-        producePretextFragment: false,
-        macroReplacements: myMacroReplacements,
-        environmentReplacements: ptxExtraEnvironmentReplacements,
-      })
-      .use(xmlCompilePlugin)
-      .processSync({ value });
-      return convert(texInput).value as string;
+            producePretextFragment: false,
+            macroReplacements: myMacroReplacements,
+            environmentReplacements: ptxExtraEnvironmentReplacements,
+        })
+        .use(xmlCompilePlugin)
+        .processSync({ value: texInput });
 
+    for (const message of result.messages) {
+        console.warn("[unified-latex-to-pretext]", String(message));
+    }
+
+    return result.value as string;
 }
 
 
